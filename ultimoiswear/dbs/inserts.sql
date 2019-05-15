@@ -1,37 +1,62 @@
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`historial` (
+  `Usuario` INT(11) NOT NULL,
+  `Producto` INT(11) NOT NULL,
+  `hCantidad` INT(11) NULL DEFAULT NULL,
+  `Paid` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`Usuario`, `Producto`),
+  INDEX `fk2_idx` (`Producto` ASC),
+  CONSTRAINT `fk1`
+    FOREIGN KEY (`Usuario`)
+    REFERENCES `mydb`.`usuarios` (`idUsuario`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk2`
+    FOREIGN KEY (`Producto`)
+    REFERENCES `mydb`.`productos` (`idProducto`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`productos` (
+  `idProducto` INT(11) NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `Descripcion` VARCHAR(380) NULL DEFAULT NULL,
+  `Fotos` VARCHAR(20) NULL DEFAULT NULL,
+  `Precio` INT(11) NULL DEFAULT NULL,
+  `Cantidad` INT(11) NOT NULL,
+  `Fabricante` VARCHAR(45) NULL DEFAULT NULL,
+  `Origen` VARCHAR(45) NULL DEFAULT NULL,
+  `Afiliacion` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`idProducto`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 31
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`usuarios` (
+  `idUsuario` INT(11) NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(45) NULL DEFAULT NULL,
+  `Correo` VARCHAR(45) NULL DEFAULT NULL,
+  `Password` VARCHAR(45) NULL DEFAULT NULL,
+  `Nacimiento` INT(11) NULL DEFAULT NULL,
+  `Tarjeta` VARCHAR(16) NULL DEFAULT NULL,
+  `Direccion` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`idUsuario`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 2
+DEFAULT CHARACTER SET = utf8;
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 use mydb;
-
-CREATE TABLE `productos` (
-  `idProducto` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(45) DEFAULT NULL,
-  `Descripcion` varchar(380) DEFAULT NULL,
-  `Fotos` varchar(20) DEFAULT NULL,
-  `Precio` int(11) DEFAULT NULL,
-  `Cantidad` int(11) NOT NULL,
-  `Fabricante` varchar(45) DEFAULT NULL,
-  `Origen` varchar(45) DEFAULT NULL,
-  `Afiliacion` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idProducto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `historial` (
-  `Usuario` int(11) NOT NULL,
-  `Producto` int(11) NOT NULL,
-  `hCantidad` int(11) DEFAULT NULL,
-  `Paid` int(11) DEFAULT NULL,
-  PRIMARY KEY (`Usuario`,`Producto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `usuarios` (
-  `idUsuario` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(45) DEFAULT NULL,
-  `Correo` varchar(45) DEFAULT NULL,
-  `Password` varchar(45) DEFAULT NULL,
-  `Nacimiento` int(11) DEFAULT NULL,
-  `Tarjeta` varchar(16) DEFAULT NULL,
-  `Direccion` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 INSERT INTO productos(Nombre,Descripcion,Fotos,Precio,Cantidad,Fabricante,Origen,Afiliacion) VALUES ('GEMINI','The GEMINI were sentient droids linked in a hive mind who operated the massive Eternal Fleet.','GEMINI.png',20000,50,'Lokath Species','Lokath','Eternal Empire');
 INSERT INTO productos(Nombre,Descripcion,Fotos,Precio,Cantidad,Fabricante,Origen,Afiliacion) VALUES ('R2','They were designed to be able to fit in the droid sockets commonly found on starfighters. R2-D2 was a notable example of this model. Although the R2 series was used prior to the Clone Wars, they were still considered to be new during the Age of the Empire.','R2.JPG',50000,50,'Industrial Automaton','Nubia','Royal house of Naboo');
 INSERT INTO productos(Nombre,Descripcion,Fotos,Precio,Cantidad,Fabricante,Origen,Afiliacion) VALUES ('R3','The R3-series astromech droid was part of the line of R-series astromech droids manufactured by Industrial Automaton.Thanks to their Intellex V processors, R3 astromechs had faster processing abilities than the more common R2 units.','R3.png',60000,50,'Industrial Automaton','Nubia','Galactic Republic');

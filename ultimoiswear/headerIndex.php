@@ -39,7 +39,7 @@
                 session_start();
                 if(isset($_SESSION['sess_user'])){
                   echo "<li class='nav-item active'>";
-                  echo "<a class='nav-link link text-white display-4' href='./cart.php'>  {$_SESSION['sess_user']}</a>";
+                  echo "<a class='nav-link link text-white display-4' href='./info.php'>  {$_SESSION['sess_user']}</a>";
                   echo "</li>";
 
                   echo "<li class='nav-item active'>";

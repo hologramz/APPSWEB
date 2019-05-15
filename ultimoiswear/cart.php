@@ -56,8 +56,11 @@
                  WHERE u.idUsuario=h.Usuario AND p.idProducto=h.Producto AND h.Paid=0 AND u.Correo='{$_SESSION['sess_user']}'");
 
                 while($row=mysqli_fetch_array($result)){
-            echo "
 
+                  $q = mysqli_query($conn, "SELECT Cantidad FROM productos WHERE Nombre='{$row['Nombre']}'");
+                  while($a=mysqli_fetch_array($q)){
+
+            echo "
             <div class='card col-12 pb-5'>
                 <div class='card-wrapper media-container-row media-container-row'>
                     <div class='card-box'>
@@ -80,13 +83,13 @@
                                       <div class='bottom-line' align='center' col-md-10>
                                         <p align='right' class='mbr-text cost mbr-fonts-style m-0 display-5'><br>";
                        echo               "$" .$row['Precio']. "<br>";
-                       echo                "Cantidad: {$row['hCantidad']}";
+                       echo             "<form class='align-right' action='./deletecart.php' method='post'>";
+                       echo              " <input type='number' name='cantidad' min=1 max={$a['Cantidad']} value={$row['hCantidad']} class='form-control'>";
                        echo "              </p>";
-                        echo             "<form class='align-right' action='./deletecart.php' method='post'>";
                         echo                "<input type='hidden' name='producto' value='{$row['Producto']}'</input>";
                         echo                "<button type='submit' align='right' class='btn btn-primary'>Eliminar de Carrito</button>";
                         echo              "</form>";
-
+                      };
 
                         echo            "</p>
                                       </div>
